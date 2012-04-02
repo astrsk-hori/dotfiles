@@ -128,7 +128,6 @@ function! s:unite_my_settings()
 endfunction
 autocmd FileType unite call s:unite_my_settings()
  
-
 "バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin
 "ファイルを開くと発動します）
 augroup BinaryXXD
@@ -142,4 +141,3 @@ augroup BinaryXXD
 augroup END
 
 autocmd FileType html setlocal includeexpr=substitute(v:fname,'^\\/','','') | setlocal path+=;/
-
