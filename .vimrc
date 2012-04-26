@@ -5,9 +5,9 @@ filetype plugin on
 
 set hlsearch
 set number
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set expandtab
 set list
 set listchars=tab:>-
@@ -17,10 +17,7 @@ set smartcase
 set backspace=indent,eol,start
 set makeprg=php\ -l\ %
 set errorformat=%m\ in\ %f\ on\ line\ %l
-set tags+=./tags;,C:/Users/horie/Documents/svn/houterasu/src/tags;
-"set tags+=./tags;,/cygdrive/c/Users/horie/Documents/svn/multidelivery/trunk/src/com/kanata_jp/tags;
-"set tags+=./tags;,/home/horie/work/multidelivery/tripwire_module/trunk/windows/bin/tags;
-"set tags+=./tags;,/home/horie/multidist/src/com/kanata_jp/tags;
+set tags=tags;
 "ルーラーを表示
 set ruler
 set title
@@ -40,9 +37,6 @@ set nobackup
 
 " スワップファイルを作成しない
 set noswapfile
-
-autocmd FileType php :set dictionary=$HOME/vimfiles/dict/PHP.dict
-let g:user_zen_expandabbr_key = '<c-e>'
 
 " ==================================================================
 
@@ -84,7 +78,7 @@ nmap gb :ls<CR>:buf
 
 " ステータスエリア関係
 "ステータスのところにファイル情報表示
-set statusline=%<[%n]%F%=\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}\ %l,%c\ %P 
+"set statusline=%<[%n]%F%=\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}\ %l,%c\ %P 
 
 "ルーラーを表示
 set ruler
@@ -97,7 +91,42 @@ nmap bb :ls<CR>:buf
 nmap ,h :bp<CR>
 nmap ,l :bn<CR>
 
-""" Unite.vim
+set grepprg=grep\ -nH
+
+"key map
+" ファンクションリスト
+nnoremap <silent> ,f :call Gfunclist()<CR>
+
+function! Gfunclist()
+    vimgrep " function" % | cw
+endfunction
+
+set nocompatible
+
+if has('vim_starting')
+execute 'set runtimepath+=/home/developer/.vim/neobundle.vim.git'
+endif
+
+filetype off
+
+call neobundle#rc('/home/developer/.vim/.bundle')
+
+NeoBundle 'git://github.com/tpope/vim-surround.git'
+NeoBundle 'git://github.com/Shougo/neocomplcache.git'
+NeoBundle 'git://github.com/Shougo/unite.vim.git'
+NeoBundle 'git://github.com/mattn/zencoding-vim.git'
+NeoBundle 'git://github.com/tsaleh/vim-align.git'
+NeoBundle 'git://github.com/soh335/vim-symfony.git'
+NeoBundle 'git://github.com/Lokaltog/vim-powerline'
+
+filetype plugin indent on
+
+"vim-powerline
+let g:Powerline_symbols = 'fancy'
+set t_Co=256
+
+
+"" Unite.vim
 " 起動時にインサートモードで開始
 let g:unite_enable_start_insert = 1
 
@@ -141,3 +170,9 @@ augroup BinaryXXD
 augroup END
 
 autocmd FileType html setlocal includeexpr=substitute(v:fname,'^\\/','','') | setlocal path+=;/
+
+"autocmd FileType php :set dictionary=$HOME/vimfiles/dict/PHP.dict
+let g:user_zen_expandabbr_key = '<c-e>'
+
+let g:neocomplcache_enable_at_startup = 1
+
