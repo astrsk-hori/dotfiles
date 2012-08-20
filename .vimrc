@@ -38,6 +38,12 @@ set nobackup
 " スワップファイルを作成しない
 set noswapfile
 
+" マウス有効化
+" Enable mouse support.
+set mouse=a
+set ttymouse=xterm2
+
+
 " ==================================================================
 
 "全角スペースを視覚化
@@ -52,19 +58,6 @@ if has('syntax')
     autocmd BufEnter * call ActivateInvisibleIndicator()
   augroup END
 endif
-
-
-" 文字コード関連
-" 文字コードの自動解釈の優先順位
-set fileencodings=utf-8,cp932,euc-jp
-" 改行コードの解釈優先順位
-set fileformats=unix,dos
-
-" 内部の解釈の文字コード　設定ファイルもこのコードで書け
-set encoding=utf-8
-" 内部の改行コード
-set fileformat=unix
-
 
 " クリップボード関係=========================================
 " ヤンクをクリップボードへ送り込む
@@ -91,7 +84,14 @@ nmap bb :ls<CR>:buf
 nmap ,h :bp<CR>
 nmap ,l :bn<CR>
 
+imap <C-[> <esc>
+
 set grepprg=grep\ -nH
+
+" 検索箇所を真ん中に
+" when move to search results, move to center.
+noremap n nzz
+noremap N Nzz
 
 "key map
 " ファンクションリスト
@@ -104,20 +104,29 @@ endfunction
 set nocompatible
 
 if has('vim_starting')
-execute 'set runtimepath+=/home/developer/.vim/neobundle.vim.git'
+execute 'set runtimepath+='.$HOME.'/.vim/neobundle.vim.git'
 endif
 
 filetype off
 
-call neobundle#rc('/home/developer/.vim/.bundle')
+call neobundle#rc($HOME."/.vim/.bundle")
 
 NeoBundle 'git://github.com/tpope/vim-surround.git'
 NeoBundle 'git://github.com/Shougo/neocomplcache.git'
 NeoBundle 'git://github.com/Shougo/unite.vim.git'
+NeoBundle 'git://github.com/Shougo/vimproc.git'
+NeoBundle 'git://github.com/Shougo/vimshell.git'
 NeoBundle 'git://github.com/mattn/zencoding-vim.git'
 NeoBundle 'git://github.com/tsaleh/vim-align.git'
 NeoBundle 'git://github.com/soh335/vim-symfony.git'
 NeoBundle 'git://github.com/Lokaltog/vim-powerline'
+NeoBundle 'git://github.com/thinca/vim-qfreplace.git'
+NeoBundle 'git://github.com/thinca/vim-quickrun.git'
+NeoBundle 'git://github.com/scrooloose/syntastic.git'
+NeoBundle 'git://github.com/vim-scripts/SQLUtilities.git'
+NeoBundle 'git://github.com/mattn/gal-vim.git'
+NeoBundle 'git://github.com/mattn/webapi-vim.git'
+NeoBundle 'git://github.com/thinca/vim-ref.git'
 
 filetype plugin indent on
 
@@ -175,4 +184,12 @@ autocmd FileType html setlocal includeexpr=substitute(v:fname,'^\\/','','') | se
 let g:user_zen_expandabbr_key = '<c-e>'
 
 let g:neocomplcache_enable_at_startup = 1
+
+" snippet
+"imap <C-s>  <Plug>(neocomplcache_start_unite_snippet)
+"
+
+" vimref
+nmap ,rp :<C-u>Ref phpmanual<Space>
+let g:ref_phpmanual_path = $HOME."/.vim/dict/php-chunked-xhtml"
 
