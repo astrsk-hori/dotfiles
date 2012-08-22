@@ -127,6 +127,9 @@ NeoBundle 'git://github.com/vim-scripts/SQLUtilities.git'
 NeoBundle 'git://github.com/mattn/gal-vim.git'
 NeoBundle 'git://github.com/mattn/webapi-vim.git'
 NeoBundle 'git://github.com/thinca/vim-ref.git'
+NeoBundle 'taglist.vim'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'TwitVim'
 
 filetype plugin indent on
 
@@ -155,6 +158,16 @@ nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
 " 全部乗せ
 nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+
+nnoremap <silent> ,up :Unite ref/phpmanual<CR>
+
+" ウィンドウを分割して開く
+ au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+ au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+
+" " ウィンドウを縦に分割して開く
+ au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+ au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
 
 " unite.vim上でのキーマッピング
 function! s:unite_my_settings()
@@ -193,3 +206,31 @@ let g:neocomplcache_enable_at_startup = 1
 nmap ,rp :<C-u>Ref phpmanual<Space>
 let g:ref_phpmanual_path = $HOME."/.vim/dict/php-chunked-xhtml"
 
+" taglist
+set tags=tags
+let Tlist_Ctags_Cmd = "/usr/bin/ctags"
+let Tlist_Show_One_File = 1 "現在編集中のソースのタグしか表示しない
+let Tlist_Use_Right_Window = 1
+let Tlist_Exit_OnlyWiindow = 1 "taglist が最後のウインドウなら vim を閉じる
+map <silent> <leader>t :TlistToggle<CR>
+let g:tlist_php_settings = 'php;c:class;d:constant;f:function'
+
+" vimfiler -------------------------------
+nnoremap <silent> <Leader>f :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
+" Like Textmate icons.
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_marked_file_icon = '*'
+
+""" twitvim
+let twitvim_count = 40
+nnoremap ,tp :<C-u>PosttoTwitter<CR>
+nnoremap ,tf :<C-u>FriendsTwitter<CR><C-w>k
+nnoremap ,tu :<C-u>UserTwitter<CR><C-w>k
+nnoremap ,tr :<C-u>RepliesTwitter<CR><C-w>k
+nnoremap ,tn :<C-u>NextTwitter<CR>
+
+autocmd FileType twitvim call s:twitvim_my_settings()
+function! s:twitvim_my_settings()
+      set nowrap
+endfunction
