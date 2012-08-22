@@ -212,7 +212,7 @@ let Tlist_Ctags_Cmd = "/usr/bin/ctags"
 let Tlist_Show_One_File = 1 "現在編集中のソースのタグしか表示しない
 let Tlist_Use_Right_Window = 1
 let Tlist_Exit_OnlyWiindow = 1 "taglist が最後のウインドウなら vim を閉じる
-map <silent> <leader>t :TlistToggle<CR>
+map <silent> <leader>t :TlistToggle<CR><C-w>l
 let g:tlist_php_settings = 'php;c:class;d:constant;f:function'
 
 " vimfiler -------------------------------
