@@ -84,6 +84,12 @@ nmap bb :ls<CR>:buf
 nmap ,h :bp<CR>
 nmap ,l :bn<CR>
 
+" 挿入モードでのカーソル移動
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+
 imap <C-[> <esc>
 
 set grepprg=grep\ -nH
@@ -134,7 +140,9 @@ NeoBundle 'TwitVim'
 filetype plugin indent on
 
 "vim-powerline
+set guifont=Ricty_for_Powerline:h10
 let g:Powerline_symbols = 'fancy'
+"let g:Powerline_colorscheme='skwp'
 set t_Co=256
 
 
@@ -234,3 +242,4 @@ autocmd FileType twitvim call s:twitvim_my_settings()
 function! s:twitvim_my_settings()
       set nowrap
 endfunction
+
