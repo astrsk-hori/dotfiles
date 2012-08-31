@@ -84,11 +84,11 @@ nmap bb :ls<CR>:buf
 nmap ,h :bp<CR>
 nmap ,l :bn<CR>
 
-" 挿入モードでのカーソル移動
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
-inoremap <C-h> <Left>
-inoremap <C-l> <Right>
+" backspaceキーの挙動を設定する
+" indent        : 行頭の空白の削除を許す
+" eol           : 改行の削除を許す
+" start         : 挿入モードの開始位置での削除を許す
+set backspace=indent,eol,start
 
 imap <C-[> <esc>
 
@@ -136,6 +136,8 @@ NeoBundle 'git://github.com/thinca/vim-ref.git'
 NeoBundle 'taglist.vim'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'TwitVim'
+NeoBundle 'git://github.com/kokukuma/vim-unite-bzr.git'
+NeoBundle 'git://github.com/Lokaltog/vim-easymotion.git'
 
 filetype plugin indent on
 
@@ -243,3 +245,44 @@ function! s:twitvim_my_settings()
       set nowrap
 endfunction
 
+"EasyMotion
+" ホームポジションに近いキーを使う
+let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+" 「,」 + 何かにマッピング
+let g:EasyMotion_leader_key=","
+" 1 ストローク選択を優先する
+let g:EasyMotion_grouping=1
+" カラー設定変更
+hi EasyMotionTarget ctermbg=none ctermfg=red
+hi EasyMotionShade  ctermbg=none ctermfg=blue
+
+
+"webdictサイトの設定
+let g:ref_source_webdict_sites = {
+            \   'je': {
+            \     'url': 'http://dictionary.infoseek.ne.jp/jeword/%s',
+            \   },
+            \   'ej': {
+            \     'url': 'http://dictionary.infoseek.ne.jp/ejword/%s',
+            \   },
+            \   'wiki': {
+            \     'url': 'http://ja.wikipedia.org/wiki/%s',
+            \   },
+            \ }
+
+"デフォルトサイト
+let g:ref_source_webdict_sites.default = 'ej'
+
+"出力に対するフィルタ。最初の数行を削除
+function! g:ref_source_webdict_sites.je.filter(output)
+    return join(split(a:output, "\n")[15 :], "\n")
+endfunction
+function! g:ref_source_webdict_sites.ej.filter(output)
+    return join(split(a:output, "\n")[15 :], "\n")
+endfunction
+function! g:ref_source_webdict_sites.wiki.filter(output)
+    return join(split(a:output, "\n")[17 :], "\n")
+endfunction
+
+nmap <Leader>rj :<C-u>Ref webdict je<Space>
+nmap <Leader>re :<C-u>Ref webdict ej<Space>
