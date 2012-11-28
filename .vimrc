@@ -151,15 +151,18 @@ NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'claco/jasmine.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'joonty/vdebug'
+NeoBundle 'git://github.com/tpope/vim-fugitive.git'
 
 filetype plugin indent on
 
 "vim-powerline
 set guifont=Ricty_for_Powerline:h10
 let g:Powerline_symbols = 'fancy'
-"let g:Powerline_colorscheme='skwp'
 set t_Co=256
 
+" ファイルへの相対パスを表示する
+let g:Powerline_stl_path_style = 'relative'
 
 "" Unite.vim
 " 起動時にインサートモードで開始
