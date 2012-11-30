@@ -153,6 +153,8 @@ NeoBundle 'claco/jasmine.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'joonty/vdebug'
 NeoBundle 'git://github.com/tpope/vim-fugitive.git'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'git://github.com/honza/snipmate-snippets.git'
 
 filetype plugin indent on
 
@@ -361,3 +363,25 @@ let g:quickrun_config['coffee'] = {'command' : 'coffee', 'exec' : ['%c -cbp %s']
 
 set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m,%f
 set grepprg=grep\ -nh
+
+"------------------------------------
+" neosnippet
+"------------------------------------
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/.bundle/snipmate-snippets/snippets'
+
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+" Unite Snippets
+imap <C-s>  <Plug>(neocomplcache_start_unite_snippet)
