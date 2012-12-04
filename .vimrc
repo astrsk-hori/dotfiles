@@ -155,6 +155,7 @@ NeoBundle 'joonty/vdebug'
 NeoBundle 'git://github.com/tpope/vim-fugitive.git'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'git://github.com/honza/snipmate-snippets.git'
+NeoBundle 'vim-scripts/yanktmp.vim'
 
 filetype plugin indent on
 
@@ -384,4 +385,10 @@ if has('conceal')
 endif
 
 " Unite Snippets
-imap <C-s>  <Plug>(neocomplcache_start_unite_snippet)
+imap <C-h>  <Plug>(neocomplcache_start_unite_snippet)
+
+" yanktmp
+map <silent> sy :call YanktmpYank()<cr>
+map <silent> sp :call YanktmpPaste_p()<cr>
+map <silent> sP :call YanktmpPaste_P()<cr> 
+
