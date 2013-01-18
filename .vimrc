@@ -166,9 +166,10 @@ NeoBundle 'FuzzyFinder'
 filetype plugin indent on
 
 "vim-powerline
-set guifont=Ricty_for_Powerline:h10
+set guifont=Ricty\ for\ Powerline:h12
 let g:Powerline_symbols = 'fancy'
 set t_Co=256
+"let g:Powerline_symbols = 'compatible'
 
 " ファイルへの相対パスを表示する
 let g:Powerline_stl_path_style = 'relative'
@@ -410,3 +411,56 @@ let g:fuf_mrufile_exclude = '\v\.DS_Store|\.git|\.swp|\.svn'
 let g:fuf_mrufile_maxItem = 100
 let g:fuf_enumeratingLimit = 20
 let g:fuf_file_exclude = '\v\.DS_Store|\.git|\.swp|\.svn'
+
+" quickrun execute sql  ====================
+let g:quickrun_config['sql'] = {
+            \ 'command': 'mysql',
+            \ 'exec': ['%c %o < %s'],
+            \ 'cmdopt': '%{MakeMySQLCommandOptions()}',
+            \ }
+let g:mysql_config_host = 'localhost'
+let g:mysql_config_port = '3306'
+let g:mysql_config_user = 'root'
+
+function! MakeMySQLCommandOptions()
+    if !exists("g:mysql_config_host")
+        let g:mysql_config_host = input("host> ")
+    endif
+    if !exists("g:mysql_config_port")
+        let g:mysql_config_port = input("port> ")
+    endif
+    if !exists("g:mysql_config_user")
+        let g:mysql_config_user = input("user> ")
+    endif
+    if !exists("g:mysql_config_pass")
+        let g:mysql_config_pass = inputsecret("password> ")
+    endif
+    if !exists("g:mysql_config_db")
+        let g:mysql_config_db = input("database> ")
+    endif
+     
+    let optlist = []
+    if g:mysql_config_user != ''
+        call add(optlist, '-u ' . g:mysql_config_user)
+    endif
+    if g:mysql_config_host != ''
+        call add(optlist, '-h ' . g:mysql_config_host)
+    endif
+    if g:mysql_config_pass != ''
+        call add(optlist, '-p' . g:mysql_config_pass)
+    endif
+    if g:mysql_config_port != ''
+        call add(optlist, '-P ' . g:mysql_config_port)
+    endif
+    if exists("g:mysql_config_otheropts")
+        call add(optlist, g:mysql_config_otheropts)
+    endif
+     
+    call add(optlist, g:mysql_config_db)
+    return join(optlist, ' ')
+endfunction
+" quickrun execute sql  ====================
+
+" statusline
+set laststatus=2 
+
