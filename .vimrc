@@ -67,7 +67,9 @@ set clipboard+=unnamed
 "編集中でもバッファを切り替えれるようにしておく
 set hidden
 "バッファ一覧ショートカット→バッファ番号で移動
-nmap gb :ls<CR>:buf 
+nmap bb :ls<CR>:buf 
+nmap ,h :bp<CR>
+nmap ,l :bn<CR>
 
 " ステータスエリア関係
 "ステータスのところにファイル情報表示
@@ -79,10 +81,6 @@ set title
 
 " 矩形選択で行末を超えてブロックを選択できるようにする
 set virtualedit+=block
-
-nmap bb :ls<CR>:buf 
-nmap ,h :bp<CR>
-nmap ,l :bn<CR>
 
 " backspaceキーの挙動を設定する
 " indent        : 行頭の空白の削除を許す
