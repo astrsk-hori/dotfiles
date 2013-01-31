@@ -361,7 +361,7 @@ let g:indent_guides_space_guides=1
 
 hi IndentGuidesOdd  ctermbg=235
 hi IndentGuidesEven ctermbg=237
-au FileType coffee,ruby,javascript,python IndentGuidesEnable
+au FileType coffee,ruby,javascript,python,php IndentGuidesEnable
 nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 
 let g:quickrun_config = {}
@@ -398,10 +398,10 @@ map <silent> sp :call YanktmpPaste_p()<cr>
 map <silent> sP :call YanktmpPaste_P()<cr> 
 
 " fuzzyfinder
-nnoremap <unique> <silent> <space>fb :FufBuffer<CR>
-nnoremap <unique> <silent> <space>ff :FufFile **/<CR>
-nnoremap <unique> <silent> <space>fm :FufMruFile<CR>
-nnoremap <unique> <silent> <Space>fc :FufRenewCache<CR>
+"nnoremap <unique> <silent> <space>fb :FufBuffer<CR>
+"nnoremap <unique> <silent> <space>ff :FufFile **/<CR>
+"nnoremap <unique> <silent> <space>fm :FufMruFile<CR>
+"nnoremap <unique> <silent> <Space>fc :FufRenewCache<CR>
 autocmd FileType fuf nmap <C-c> <ESC>
 let g:fuf_patternSeparator = ' '
 let g:fuf_modesDisable = ['mrucmd']
