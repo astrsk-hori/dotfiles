@@ -232,10 +232,6 @@ let g:user_zen_expandabbr_key = '<c-e>'
 
 let g:neocomplcache_enable_at_startup = 1
 
-" snippet
-"imap <C-s>  <Plug>(neocomplcache_start_unite_snippet)
-"
-
 " vimref
 nmap ,rp :<C-u>Ref phpmanual<Space>
 let g:ref_phpmanual_path = $HOME."/.vim/dict/php-chunked-xhtml"
