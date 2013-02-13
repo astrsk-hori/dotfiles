@@ -97,6 +97,14 @@ set grepprg=grep\ -nH
 noremap n nzz
 noremap N Nzz
 
+"----------------------------------------------------
+" 挿入モードでのカーソル移動
+"----------------------------------------------------
+imap OA <Up>
+imap OB <Down>
+imap OC <Right>
+imap OD <Left>
+
 "key map
 " ファンクションリスト
 nnoremap <silent> ,f :call Gfunclist()<CR>
@@ -160,6 +168,7 @@ NeoBundle 'tomasr/molokai'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'L9'
 NeoBundle 'FuzzyFinder'
+NeoBundle 'git://github.com/yuratomo/w3m.vim.git'
 
 filetype plugin indent on
 
