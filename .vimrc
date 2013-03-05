@@ -43,7 +43,6 @@ set noswapfile
 set mouse=a
 set ttymouse=xterm2
 
-
 " ==================================================================
 
 "全角スペースを視覚化
@@ -104,6 +103,10 @@ imap OA <Up>
 imap OB <Down>
 imap OC <Right>
 imap OD <Left>
+
+" marks & registers
+nnoremap <Space>m  :<C-u>marks<CR>
+nnoremap <Space>r  :<C-u>registers<CR>
 
 "key map
 " ファンクションリスト
@@ -169,6 +172,7 @@ NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'L9'
 NeoBundle 'FuzzyFinder'
 NeoBundle 'git://github.com/yuratomo/w3m.vim.git'
+NeoBundle 'PDV--phpDocumentor-for-Vim'
 
 filetype plugin indent on
 
@@ -404,7 +408,7 @@ map <silent> sP :call YanktmpPaste_P()<cr>
 
 " fuzzyfinder
 "nnoremap <unique> <silent> <space>fb :FufBuffer<CR>
-"nnoremap <unique> <silent> <space>ff :FufFile **/<CR>
+nnoremap <unique> <silent> ,ff :FufFile! **/<CR>
 "nnoremap <unique> <silent> <space>fm :FufMruFile<CR>
 "nnoremap <unique> <silent> <Space>fc :FufRenewCache<CR>
 autocmd FileType fuf nmap <C-c> <ESC>
@@ -476,3 +480,12 @@ autocmd QuickfixCmdPost grep copen
 " grep の書式を挿入
 nnoremap <expr> <Space>g ':vimgrep /\<' . expand('<cword>') . '\>/j **/*.' . expand('%:e')
 nnoremap <expr> <Space>G ':sil grep! ' . expand('<cword>') . ' *'
+
+" 改行コードの解釈優先順位
+" 何かのプラグインで上書きされているようなので最後に再設定。。。
+"set fileformats=unix
+
+"php-doc
+inoremap <C-D> <ESC>:call PhpDocSingle()<CR>i
+nnoremap <C-D> :call PhpDocSingle()<CR>
+vnoremap <C-D> :call PhpDocRange()<CR>
