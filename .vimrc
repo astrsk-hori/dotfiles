@@ -108,6 +108,11 @@ imap OD <Left>
 nnoremap <Space>m  :<C-u>marks<CR>
 nnoremap <Space>r  :<C-u>registers<CR>
 
+":e をvimfilerに置き換え
+let g:vimfiler_as_default_explorer=1
+" safe mode 解除
+let g:vimfiler_safe_mode_by_default=0
+
 "key map
 " ファンクションリスト
 nnoremap <silent> ,f :call Gfunclist()<CR>
