@@ -10,7 +10,8 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set list
-set listchars=tab:>-
+" Tabや行末の空白を表示する
+set listchars=tab:>-,trail:_
 set incsearch
 set ignorecase
 set smartcase
@@ -113,6 +114,9 @@ let g:vimfiler_as_default_explorer=1
 " safe mode 解除
 let g:vimfiler_safe_mode_by_default=0
 
+" ctgas jump 複数飛び先がある場合に一覧表示させる
+nnoremap <C-]> g<C-]> 
+
 "key map
 " ファンクションリスト
 nnoremap <silent> ,f :call Gfunclist()<CR>
@@ -212,6 +216,8 @@ nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
 nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 
 nnoremap <silent> ,up :Unite ref/phpmanual<CR>
+
+nnoremap <silent> ,ul :Unite line<CR>
 
 " ウィンドウを分割して開く
  au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
@@ -478,7 +484,7 @@ set laststatus=2
 
 
 " grep
-set grepprg=grep\ -rnIH\ --exclude-dir=.svn\ --exclude-dir=.git
+set grepprg=grep\ -rnIH\ --exclude-dir=.svn\ --exclude-dir=.git\ --exclude-dir='twigtemplates'
 autocmd QuickfixCmdPost vimgrep copen
 autocmd QuickfixCmdPost grep copen
 
@@ -494,3 +500,26 @@ nnoremap <expr> <Space>G ':sil grep! ' . expand('<cword>') . ' *'
 inoremap <C-D> <ESC>:call PhpDocSingle()<CR>i
 nnoremap <C-D> :call PhpDocSingle()<CR>
 vnoremap <C-D> :call PhpDocRange()<CR>
+
+" gtags
+" 検索結果Windowを閉じる
+nnoremap <C-q> <C-w><C-w><C-w>q
+" Grep 準備
+nnoremap <C-g> :Gtags -g
+" このファイルの関数一覧
+nnoremap <C-l> :Gtags -f %<CR><CR>
+" カーソル以下の定義元を探す
+"nnoremap <C-j> :Gtags <C-r><C-w><CR><CR>
+map <C-j> :GtagsCursor<CR><CR>
+" カーソル以下の使用箇所を探す
+nnoremap <C-k> :Gtags -r <C-r><C-w><CR><CR>
+" 次の検索結果
+nnoremap <C-n> :cn<CR>
+" 前の検索結果
+nnoremap <C-p> :cp<CR>
+
+"let Gtags_No_Auto_Jump = 1
+"
+
+nnoremap <silent> <Leader>S vaw:s/_\([a-z]\)/\u\1/egI<BAR>noh<CR>
+nnoremap <silent> <Leader>s vaw:s/[A-Z]/_\l\0/egI<BAR>noh<CR>
