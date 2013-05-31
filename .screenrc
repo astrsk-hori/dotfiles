@@ -1,0 +1,137 @@
+# encodings
+# default encoding for new window
+defencoding utf-8
+ 
+# エラー時の端末画面の点滅
+vbell off
+ 
+# 自動デタッチ
+autodetach on
+ 
+# 起動メッセージ
+startup_message off
+ 
+# スクロールバックバッファ
+defscrollback 10000
+ 
+# モニター機能
+defmonitor on
+ 
+# ステータスバー
+hardstatus on
+ 
+# caption string description:
+#
+# %?          - Start of a conditional statement.
+#  %F         - Use this part of the statement if the window has focus (i.e. it
+#               is the only window or the currently active one).
+#  %{= wB}    - bright brue on white.
+# %:          - else
+#  %{=b wk}   - battribute is bold, bg is white and fg is blue
+# %?          - End conditional statement.
+#  %2n        - number of the current window with left 2 padding
+#  %f         - flags for current window
+#  %07=       - left 7 padding for window number and flags
+#  %t         - title of current window
+#  %=         - truncation/padding point
+caption always '%?%F%{= wB}%:%{=b wk}%?%2n%f%07=%t%='
+ 
+# hardstatus string description:
+#
+#  %m         - Two-letter month number
+#  %d         - Two-letter day number
+#  %02c       - time (hh:mm) in 24 hour format
+#  %s         - seconds
+# %{= .b}     - blue color on default background
+#  %H         - host name.
+# %{-}        - undo last color change(so now we're back to default color)
+#  %L=        - left padding start here
+#  %-w        - window list up to but not including the current window (-)
+#  %45L>      - truncation/padding marker; place this point about 45% of the
+#               way into the display area (45)
+# %{=bu br}   - attributes are bold and underline, bg is default and fg is red
+#  %n         - number of the current window.
+#  %t         - title of current window.
+# %{-}        - undo last color change
+#  %+w        - window list from the next window on (-)
+#  %-17<      - truncation/padding point. place this point zero spaces (0)
+#               from the right margin (-).
+#  %=         - truncation/paddion point.
+# %{= .b}     - blue on default background.
+#  %l         - host load average.
+hardstatus alwayslastline '%m/%d %02c:%s %{= .W}%H%{-} %L=%-w%45L>%{=u W.}%n %t%{-}%+w %-17<%=%{= .b}(%l)'
+ 
+# その他のメッセージ
+sorendition "+rb .G"
+ 
+# ステータス行に各ウィンドウで打ったコマンドを表示
+shelltitle "$ |shell"
+ 
+# エスケープ C-t
+escape ^Zz
+ 
+# encodings
+# default encoding for new window
+defencoding utf-8
+ 
+# 背景色消去
+defbce "on"
+ 
+# ボールドのテキストを表示するとき、色を明るい青に変更する。
+attrcolor b "^["
+ 
+# アンダーラインの代わりに青のテキストを用いる。
+#attrcolor u "-u b"
+attrcolor u "b"
+ 
+# 高輝度色のテキストをボールドにもする。
+attrcolor i "+b"
+ 
+# 256色表示設定
+term xterm-256color
+termcapinfo xterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+termcapinfo kterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+ 
+escape codes to avoid resize window at starting screen
+termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcapinfo kterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+ 
+# 別画面サポート。Vimやless使うときに便利
+altscreen on
+ 
+# 新しいウィンドウを生成するときのコマンド
+shell -$SHELL
+ 
+# ログファイル保存先
+logfile "$HOME/.screen/screen-%H.%Y%m%d-%0c:%s.%n.%t.log"
+ 
+# ログ取得
+deflog on
+ 
+# メッセージを表示する時間(秒単位)
+msgwait 5
+ 
+# 次のメッセージを表示するまでの遅延時間(秒単位)
+msgminwait 1
+ 
+# この下の一行を入れないと、Macのターミナルでウインドウスクロールが出来ない
+termcapinfo xterm* ti@:te@
+ 
+# ウィンドウ操作モード
+#bind j eval 'echo "Operate window"' 'command -c operate'
+#bind -c operate ^]  command
+#bind -c operate j eval 'focus down' 'command -c operate'
+#bind -c operate k eval 'focus up' 'command -c operate'
+#bind -c operate t eval 'focus top' 'command -c operate'
+#bind -c operate b eval 'focus bottom' 'command -c operate'
+#bind -c operate + eval 'resize +1' 'command -c operate'
+#bind -c operate - eval 'resize -1' 'command -c operate'
+#bind -c operate s eval 'split' 'command -c operate'
+#bind -c operate c eval 'screen' 'command -c operate'
+#bind -c operate x eval 'remove' 'command -c operate'
+# 垂直分割する。（縦分割対応版screenをインストールする必要あり)
+#bind -c operate v eval 'split -v' 'command -c operate'
+ 
+#process kill log
+#zombie ^[
+
