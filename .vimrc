@@ -182,6 +182,8 @@ NeoBundle 'L9'
 NeoBundle 'FuzzyFinder'
 NeoBundle 'git://github.com/yuratomo/w3m.vim.git'
 NeoBundle 'PDV--phpDocumentor-for-Vim'
+NeoBundle 'vim-scripts/gtags.vim'
+NeoBundle "Shougo/unite-outline"
 
 filetype plugin indent on
 
