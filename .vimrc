@@ -8,10 +8,10 @@ set number
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set expandtab
-set list
+"set expandtab
+"set list
 " Tabや行末の空白を表示する
-set listchars=tab:>-,trail:_
+"set listchars=tab:>-,trail:_
 set incsearch
 set ignorecase
 set smartcase
@@ -184,6 +184,8 @@ NeoBundle 'git://github.com/yuratomo/w3m.vim.git'
 NeoBundle 'PDV--phpDocumentor-for-Vim'
 NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle "Shougo/unite-outline"
+NeoBundle "davidhalter/jedi-vim"
+NeoBundle "violetyk/cake.vim"
 
 filetype plugin indent on
 
@@ -525,3 +527,6 @@ nnoremap <C-p> :cp<CR>
 
 nnoremap <silent> <Leader>S vaw:s/_\([a-z]\)/\u\1/egI<BAR>noh<CR>
 nnoremap <silent> <Leader>s vaw:s/[A-Z]/_\l\0/egI<BAR>noh<CR>
+
+" cake.vim
+let g:cakephp_enable_auto_mode = 1
