@@ -8,10 +8,12 @@ set number
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-"set expandtab
-"set list
-" Tabや行末の空白を表示する
-"set listchars=tab:>-,trail:_
+"====================================
+set expandtab
+set list
+ "Tabや行末の空白を表示する
+set listchars=tab:>-,trail:_
+"====================================
 set incsearch
 set ignorecase
 set smartcase
@@ -43,6 +45,8 @@ set noswapfile
 " Enable mouse support.
 set mouse=a
 set ttymouse=xterm2
+
+colorscheme delek
 
 " ==================================================================
 
@@ -114,6 +118,9 @@ let g:vimfiler_as_default_explorer=1
 " safe mode 解除
 let g:vimfiler_safe_mode_by_default=0
 
+" vimfiler directoryをエンターで開けるようにする
+autocmd FileType vimfiler call unite#custom_default_action('directory', 'cd')
+
 " ctgas jump 複数飛び先がある場合に一覧表示させる
 nnoremap <C-]> g<C-]> 
 
@@ -151,7 +158,7 @@ NeoBundle 'git://github.com/Shougo/vimshell.git'
 NeoBundle 'git://github.com/mattn/zencoding-vim.git'
 NeoBundle 'git://github.com/tsaleh/vim-align.git'
 NeoBundle 'git://github.com/soh335/vim-symfony.git'
-NeoBundle 'git://github.com/Lokaltog/vim-powerline'
+"NeoBundle 'git://github.com/Lokaltog/vim-powerline'
 NeoBundle 'git://github.com/thinca/vim-qfreplace.git'
 NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 NeoBundle 'git://github.com/scrooloose/syntastic.git'
@@ -162,7 +169,7 @@ NeoBundle 'git://github.com/thinca/vim-ref.git'
 NeoBundle 'taglist.vim'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'TwitVim'
-NeoBundle 'git://github.com/kokukuma/vim-unite-bzr.git'
+"NeoBundle 'git://github.com/kokukuma/vim-unite-bzr.git'
 NeoBundle 'git://github.com/Lokaltog/vim-easymotion.git'
 NeoBundle 'JavaScript-syntax'
 NeoBundle 'pangloss/vim-javascript'
@@ -184,19 +191,11 @@ NeoBundle 'git://github.com/yuratomo/w3m.vim.git'
 NeoBundle 'PDV--phpDocumentor-for-Vim'
 NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle "Shougo/unite-outline"
-NeoBundle "davidhalter/jedi-vim"
-NeoBundle "violetyk/cake.vim"
+"NeoBundle "violetyk/cake.vim"
+"NeoBundle "git://github.com/ujihisa/unite-locate.git"
+NeoBundle 'bling/vim-airline'
 
 filetype plugin indent on
-
-"vim-powerline
-set guifont=Ricty\ for\ Powerline:h12
-let g:Powerline_symbols = 'fancy'
-set t_Co=256
-"let g:Powerline_symbols = 'compatible'
-
-" ファイルへの相対パスを表示する
-let g:Powerline_stl_path_style = 'relative'
 
 "" Unite.vim
 " 起動時にインサートモードで開始
@@ -222,6 +221,10 @@ nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mr
 nnoremap <silent> ,up :Unite ref/phpmanual<CR>
 
 nnoremap <silent> ,ul :Unite line<CR>
+
+let g:unite_source_history_yank_enable =1  "history/yankの有効化
+nnoremap <silent> <C-y> :<C-u>Unite history/yank<CR>
+inoremap <silent> <C-y> <ESC>:<C-u>Unite history/yank<CR>
 
 " ウィンドウを分割して開く
  au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
@@ -255,7 +258,7 @@ augroup END
 
 autocmd FileType html setlocal includeexpr=substitute(v:fname,'^\\/','','') | setlocal path+=;/
 
-"autocmd FileType php :set dictionary=$HOME/vimfiles/dict/PHP.dict
+autocmd FileType php :set dictionary=$HOME/vimfiles/dict/PHP.dict
 let g:user_zen_expandabbr_key = '<c-e>'
 
 let g:neocomplcache_enable_at_startup = 1
@@ -423,7 +426,7 @@ map <silent> sP :call YanktmpPaste_P()<cr>
 
 " fuzzyfinder
 "nnoremap <unique> <silent> <space>fb :FufBuffer<CR>
-nnoremap <unique> <silent> ,ff :FufFile! **/<CR>
+nnoremap <unique> <silent> <space>f :FufFile! **/<CR>
 "nnoremap <unique> <silent> <space>fm :FufMruFile<CR>
 "nnoremap <unique> <silent> <Space>fc :FufRenewCache<CR>
 autocmd FileType fuf nmap <C-c> <ESC>
@@ -486,7 +489,6 @@ endfunction
 " statusline
 set laststatus=2 
 
-
 " grep
 set grepprg=grep\ -rnIH\ --exclude-dir=.svn\ --exclude-dir=.git\ --exclude-dir='twigtemplates'
 autocmd QuickfixCmdPost vimgrep copen
@@ -524,9 +526,12 @@ nnoremap <C-p> :cp<CR>
 
 "let Gtags_No_Auto_Jump = 1
 "
-
 nnoremap <silent> <Leader>S vaw:s/_\([a-z]\)/\u\1/egI<BAR>noh<CR>
 nnoremap <silent> <Leader>s vaw:s/[A-Z]/_\l\0/egI<BAR>noh<CR>
 
-" cake.vim
-let g:cakephp_enable_auto_mode = 1
+" syntastic
+let g:syntastic_mode_map = { 'mode': 'active',
+  \ 'active_filetypes': [],
+  \ 'passive_filetypes': [] }
+"  \ 'passive_filetypes': ['html', 'js'] }
+let g:syntastic_auto_loc_list = 1
