@@ -48,6 +48,7 @@ set ttymouse=xterm2
 
 colorscheme delek
 
+set nrformats=
 " ==================================================================
 
 "全角スペースを視覚化
@@ -108,6 +109,8 @@ imap OA <Up>
 imap OB <Down>
 imap OC <Right>
 imap OD <Left>
+" jkでエスケープ
+inoremap jk <ESC>
 
 " marks & registers
 nnoremap <Space>m  :<C-u>marks<CR>
@@ -155,15 +158,15 @@ NeoBundle 'git://github.com/Shougo/neocomplcache.git'
 NeoBundle 'git://github.com/Shougo/unite.vim.git'
 NeoBundle 'git://github.com/Shougo/vimproc.git'
 NeoBundle 'git://github.com/Shougo/vimshell.git'
-NeoBundle 'git://github.com/mattn/zencoding-vim.git'
+"NeoBundle 'git://github.com/mattn/zencoding-vim.git'
 NeoBundle 'git://github.com/tsaleh/vim-align.git'
-NeoBundle 'git://github.com/soh335/vim-symfony.git'
+"NeoBundle 'git://github.com/soh335/vim-symfony.git'
 "NeoBundle 'git://github.com/Lokaltog/vim-powerline'
 NeoBundle 'git://github.com/thinca/vim-qfreplace.git'
 NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 NeoBundle 'git://github.com/scrooloose/syntastic.git'
 NeoBundle 'git://github.com/vim-scripts/SQLUtilities.git'
-NeoBundle 'git://github.com/mattn/gal-vim.git'
+"NeoBundle 'git://github.com/mattn/gal-vim.git'
 NeoBundle 'git://github.com/mattn/webapi-vim.git'
 NeoBundle 'git://github.com/thinca/vim-ref.git'
 NeoBundle 'taglist.vim'
@@ -194,6 +197,9 @@ NeoBundle "Shougo/unite-outline"
 "NeoBundle "violetyk/cake.vim"
 "NeoBundle "git://github.com/ujihisa/unite-locate.git"
 NeoBundle 'bling/vim-airline'
+NeoBundle 'mattn/emmet-vim'
+"javascript 構文解析
+"NeoBundle 'marijnh/tern_for_vim'
 
 filetype plugin indent on
 
@@ -243,6 +249,25 @@ function! s:unite_my_settings()
   imap <silent><buffer> <ESC><ESC> <ESC>q
 endfunction
 autocmd FileType unite call s:unite_my_settings()
+
+" grep検索
+"nnoremap <silent> ,ug  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap <silent> ,ug  :<C-u>Unite grep: -buffer-name=search-buffer<CR>
+
+" カーソル位置の単語をgrep検索
+nnoremap <silent> ,uw :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+
+" grep検索結果の再呼出
+nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
+
+" unite grep に ag(The Silver Searcher) を使う
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+
+
  
 "バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin
 "ファイルを開くと発動します）
@@ -259,7 +284,7 @@ augroup END
 autocmd FileType html setlocal includeexpr=substitute(v:fname,'^\\/','','') | setlocal path+=;/
 
 autocmd FileType php :set dictionary=$HOME/vimfiles/dict/PHP.dict
-let g:user_zen_expandabbr_key = '<c-e>'
+let g:user_emmet_leader_key = '<c-e>'
 
 let g:neocomplcache_enable_at_startup = 1
 
