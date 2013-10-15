@@ -70,6 +70,7 @@ endif
 " クリップボード関係=========================================
 " ヤンクをクリップボードへ送り込む
 set clipboard+=unnamed
+set clipboard+=autoselect
 
 " バッファ関連=====================================================
 "編集中でもバッファを切り替えれるようにしておく
@@ -204,6 +205,7 @@ NeoBundle 'mattn/emmet-vim'
 "javascript 構文解析
 "NeoBundle 'marijnh/tern_for_vim'
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'git://github.com/kana/vim-fakeclip.git'
 
 filetype plugin indent on
 
@@ -564,3 +566,9 @@ let g:syntastic_mode_map = { 'mode': 'active',
   \ 'passive_filetypes': [] }
 "  \ 'passive_filetypes': ['html', 'js'] }
 let g:syntastic_auto_loc_list = 1
+
+"for fakeclip
+map y <Plug>(fakeclip-y)
+map yy <Plug>(fakeclip-Y)
+map p <Plug>(fakeclip-p)
+map dd <Plug>(fakeclip-D)
