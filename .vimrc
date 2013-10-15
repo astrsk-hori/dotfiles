@@ -46,9 +46,12 @@ set noswapfile
 set mouse=a
 set ttymouse=xterm2
 
-colorscheme delek
+set background=dark
+colorscheme molokai
 
 set nrformats=
+
+set t_Co=256
 " ==================================================================
 
 "全角スペースを視覚化
@@ -200,6 +203,7 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'mattn/emmet-vim'
 "javascript 構文解析
 "NeoBundle 'marijnh/tern_for_vim'
+NeoBundle 'altercation/vim-colors-solarized'
 
 filetype plugin indent on
 
