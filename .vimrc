@@ -69,8 +69,7 @@ endif
 
 " クリップボード関係=========================================
 " ヤンクをクリップボードへ送り込む
-set clipboard+=unnamed
-set clipboard+=autoselect
+set clipboard+=unnamed,autoselect
 
 " バッファ関連=====================================================
 "編集中でもバッファを切り替えれるようにしておく
@@ -571,4 +570,6 @@ let g:syntastic_auto_loc_list = 1
 map y <Plug>(fakeclip-y)
 map yy <Plug>(fakeclip-Y)
 map p <Plug>(fakeclip-p)
+map d <Plug>(fakeclip-D)
 map dd <Plug>(fakeclip-D)
+map x <Plug>(fakeclip-D)
