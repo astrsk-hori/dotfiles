@@ -205,6 +205,7 @@ NeoBundle 'mattn/emmet-vim'
 "NeoBundle 'marijnh/tern_for_vim'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'git://github.com/kana/vim-fakeclip.git'
+NeoBundle 'open-browser.vim'
 
 filetype plugin indent on
 
@@ -218,6 +219,8 @@ let g:unite_enable_start_insert = 1
 "nnoremap <silent> <C-b> :<C-u>Unite buffer file_mru<CR>
 "inoremap <silent> <C-b> <ESC>:<C-u>Unite buffer file_mru<CR>
 
+" project以下のファイル一覧
+nnoremap <silent> ,uo  :<C-u>Unite file_rec/async:!<CR>
 " バッファ一覧
 nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
 " ファイル一覧
@@ -570,3 +573,52 @@ let g:syntastic_auto_loc_list = 1
 map ,y <Plug>(fakeclip-y)
 map ,Y <Plug>(fakeclip-Y)
 map ,p <Plug>(fakeclip-p)
+
+"######################################################################
+" vim boolean設定をtoggle化
+" コマンド ToggleOption の定義
+ command! -nargs=1 ToggleOption set <args>! <bar> set <args>?
+
+" unite化
+if !exists("g:unite_source_menu_menus")
+    let g:unite_source_menu_menus = {}
+endif
+let g:unite_source_menu_menus.toggle = {}
+
+" vim 以外のオプション
+let g:unite_source_menu_menus.toggle.command_candidates = {
+      \ 'neocomplete': "NeoCompleteToggle",
+      \ }
+
+" options にスペース区切りでオプション名を列挙する。
+let options = "
+      \ paste spell list number relativenumber incsearch wrap hlsearch
+      \ foldenable ignorecase readonly wrapscan"
+
+for opt in split(options)
+  let g:unite_source_menu_menus.toggle.command_candidates[opt] = "ToggleOption " . opt
+endfor
+unlet options opt
+
+nnoremap ,ud :Unite menu:toggle -start-insert -auto-resize<CR>
+"######################################################################
+
+"openbrowser
+nmap <Space>o <Plug>(openbrowser-open)
+vmap <Space>o <Plug>(openbrowser-open)
+" ググる
+nnoremap ,g :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
+"######################################################################
+" unite-shortcut {{{
+let g:unite_source_menu_menus.shortcut = {
+\   "description" : "shortcut"
+\}
+
+" ここに書かれた順番のまま出力される
+let g:unite_source_menu_menus.shortcut.command_candidates = [
+\   [ "project file list", "Unite file_rec/async:!" ],
+\   [ "AllMap", "Unite output:AllMap" ],
+\   [ "Unite Beautiful Attack", "Unite -auto-preview colorscheme" ],
+\   [ "Qiita", "OpenBrowser http://qiita.com" ],
+\]
+nnoremap ,m :Unite menu<CR>
