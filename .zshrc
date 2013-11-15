@@ -43,7 +43,7 @@ ZSH_THEME="muse"
 PATH=$PATH:/Applications/Lynxlet.app/Contents/Resources/lynx/bin
 PATH=$PATH:/usr/local/mysql/bin:/Users/horie
 
-plugins=(git vi-mode history history-substring-search mysql ruby rails4 gem brew)
+plugins=(git vi-mode history history-substring-search mysql ruby rails4 gem brew rake rbenv autojump)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -65,18 +65,21 @@ alias rtags='ctags --langmap=RUBY:.rb --exclude="*.js"  --exclude=".git*" -R . $
 export RBENV_ROOT=$HOME/.rbenv
 export PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"
 eval "$(rbenv init -)"
+alias re='rbenv exec'
 
 #shhet
 export EDITOR=vim
 # sheet
 compdef _sheets sheet
 function _sheets {
-local -a cmds
-_files -W ~/.sheets/ -P '~/.sheets/'
+    local -a cmds
+    _files -W ~/.sheets/ -P '~/.sheets/'
 
-cmds=('list' 'edit' 'copy')
-_describe -t commands "subcommand" cmds
+    cmds=('list' 'edit' 'copy')
+    _describe -t commands "subcommand" cmds
 
-return 1;
+    return 1;
 }
-# }
+
+# zsh-syntax-highlightingを使う
+source ~/dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
