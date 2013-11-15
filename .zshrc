@@ -43,7 +43,7 @@ ZSH_THEME="muse"
 PATH=$PATH:/Applications/Lynxlet.app/Contents/Resources/lynx/bin
 PATH=$PATH:/usr/local/mysql/bin:/Users/horie
 
-plugins=(git vi-mode history history-substring-search)
+plugins=(git vi-mode history history-substring-search mysql ruby rails4 gem brew)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -56,3 +56,27 @@ show_buffer_stack() {
 zle -N show_buffer_stack
 setopt noflowcontrol
 bindkey '^Q' show_buffer_stack
+
+#alias
+alias ctags='/opt/local/bin/ctags'
+alias rtags='ctags --langmap=RUBY:.rb --exclude="*.js"  --exclude=".git*" -R . $(bundle list --paths)'
+
+#ruby
+export RBENV_ROOT=$HOME/.rbenv
+export PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"
+eval "$(rbenv init -)"
+
+#shhet
+export EDITOR=vim
+# sheet
+compdef _sheets sheet
+function _sheets {
+local -a cmds
+_files -W ~/.sheets/ -P '~/.sheets/'
+
+cmds=('list' 'edit' 'copy')
+_describe -t commands "subcommand" cmds
+
+return 1;
+}
+# }

@@ -206,6 +206,7 @@ NeoBundle 'mattn/emmet-vim'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'git://github.com/kana/vim-fakeclip.git'
 NeoBundle 'open-browser.vim'
+NeoBundle 'kana/vim-smartinput'
 
 filetype plugin indent on
 
