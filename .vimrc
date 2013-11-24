@@ -117,7 +117,7 @@ inoremap jk <ESC>
 
 " marks & registers
 nnoremap <Space>m  :<C-u>marks<CR>
-nnoremap <Space>r  :<C-u>registers<CR>
+nnoremap <Space>y  :<C-u>registers<CR>
 
 ":e をvimfilerに置き換え
 let g:vimfiler_as_default_explorer=1
@@ -199,7 +199,7 @@ NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle "Shougo/unite-outline"
 "NeoBundle "violetyk/cake.vim"
 "NeoBundle "git://github.com/ujihisa/unite-locate.git"
-NeoBundle 'bling/vim-airline'
+"NeoBundle 'bling/vim-airline'
 NeoBundle 'mattn/emmet-vim'
 "javascript 構文解析
 "NeoBundle 'marijnh/tern_for_vim'
@@ -207,6 +207,11 @@ NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'git://github.com/kana/vim-fakeclip.git'
 NeoBundle 'open-browser.vim'
 NeoBundle 'kana/vim-smartinput'
+NeoBundle 'tpope/vim-rails'
+NeoBundle 'basyura/unite-rails'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'airblade/vim-gitgutter'
 
 filetype plugin indent on
 
@@ -233,7 +238,7 @@ nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
 " 全部乗せ
 nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 
-nnoremap <silent> ,up :Unite ref/phpmanual<CR>
+nnoremap <silent> ,up :Unite ref phpmanual<CR>
 
 nnoremap <silent> ,ul :Unite line<CR>
 
@@ -623,3 +628,139 @@ let g:unite_source_menu_menus.shortcut.command_candidates = [
 \   [ "Qiita", "OpenBrowser http://qiita.com" ],
 \]
 nnoremap ,m :Unite menu<CR>
+
+"------------------------------------
+" vim-rails
+"------------------------------------
+""{{{
+"有効化
+let g:rails_default_file='config/database.yml'
+let g:rails_level = 4
+let g:rails_mappings=1
+let g:rails_modelines=0
+" let g:rails_some_option = 1
+" let g:rails_statusline = 1
+" let g:rails_subversion=0
+" let g:rails_syntax = 1
+" let g:rails_url='http://localhost:3000'
+" let g:rails_ctags_arguments='--languages=-javascript'
+" let g:rails_ctags_arguments = ''
+function! SetUpRailsSetting()
+    nnoremap <Space>rr :R<CR>
+    nnoremap <Space>ra :A<CR>
+    nnoremap <Space>rm :Rmodel<Space>
+    nnoremap <Space>rc :Rcontroller<Space>
+    nnoremap <Space>rv :Rview<Space>
+    nnoremap <Space>rp :Rpreview<CR>
+endfunction
+
+aug MyAutoCmd
+au User Rails call SetUpRailsSetting()
+aug END
+
+aug RailsDictSetting
+au!
+aug END
+"}}}
+
+"------------------------------------
+" Unite-rails.vim
+"------------------------------------
+"{{{
+function! UniteRailsSetting()
+    nnoremap <buffer><C-H><C-H><C-H> :<C-U>Unite rails/view<CR>
+    nnoremap <buffer><C-H><C-H> :<C-U>Unite rails/model<CR>
+    nnoremap <buffer><C-H> :<C-U>Unite rails/controller<CR>
+
+    nnoremap <buffer><C-H>c :<C-U>Unite rails/config<CR>
+    nnoremap <buffer><C-H>s :<C-U>Unite rails/spec<CR>
+    nnoremap <buffer><C-H>m :<C-U>Unite rails/db -input=migrate<CR>
+    nnoremap <buffer><C-H>l :<C-U>Unite rails/lib<CR>
+    nnoremap <buffer><expr><C-H>g ':e '.b:rails_root.'/Gemfile<CR>'
+    nnoremap <buffer><expr><C-H>r ':e '.b:rails_root.'/config/routes.rb<CR>'
+    nnoremap <buffer><expr><C-H>se ':e '.b:rails_root.'/db/seeds.rb<CR>'
+    nnoremap <buffer><C-H>ra :<C-U>Unite rails/rake<CR>
+    nnoremap <buffer><C-H>h :<C-U>Unite rails/heroku<CR>
+endfunction
+aug MyAutoCmd
+    au User Rails call UniteRailsSetting()
+aug END
+"}}}
+
+" lightline
+"let g:lightline = {'colorscheme': 'solarized'}
+
+set guifont=Ricty\ Regular\ for\ Powerline:h14
+let g:lightline = {
+      \ 'colorscheme': 'solarized',
+      \ 'component': {
+      \   'readonly': '%{&readonly?"":""}',
+      \ },
+  \ }
+
+let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'mode_map': {'c': 'NORMAL'},
+      \ 'active': {
+      \   'left': [ ['mode', 'paste'], ['fugitive', 'filename', 'cakephp', 'currenttag', 'anzu'] ]
+      \ },
+      \ 'component': {
+      \   'lineinfo': ' %3l:%-2v',
+      \ },
+      \ 'component_function': {
+      \   'modified': 'MyModified',
+      \   'readonly': 'MyReadonly',
+      \   'fugitive': 'MyFugitive',
+      \   'filename': 'MyFilename',
+      \   'fileformat': 'MyFileformat',
+      \   'filetype': 'MyFiletype',
+      \   'fileencoding': 'MyFileencoding',
+      \   'mode': 'MyMode',
+      \ }
+      \ }
+
+
+function! MyModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? ' ' : ''
+endfunction
+
+function! MyFilename()
+  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  try
+    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
+      return ' ' . fugitive#head()
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+
