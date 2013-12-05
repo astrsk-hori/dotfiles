@@ -5,9 +5,9 @@ filetype plugin on
 
 set hlsearch
 set number
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 "====================================
 set expandtab
 set list
@@ -47,7 +47,6 @@ set mouse=a
 set ttymouse=xterm2
 
 set background=dark
-colorscheme molokai
 
 set nrformats=
 
@@ -193,7 +192,7 @@ NeoBundle 'tomasr/molokai'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'L9'
 NeoBundle 'FuzzyFinder'
-NeoBundle 'git://github.com/yuratomo/w3m.vim.git'
+"NeoBundle 'git://github.com/yuratomo/w3m.vim.git'
 NeoBundle 'PDV--phpDocumentor-for-Vim'
 NeoBundle 'vim-scripts/gtags.vim'
 NeoBundle "Shougo/unite-outline"
@@ -212,6 +211,10 @@ NeoBundle 'basyura/unite-rails'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'kana/vim-textobj-user'
+" ruby用のtext-obj
+NeoBundle 'rhysd/vim-textobj-ruby'
+NeoBundle 'AndrewRadev/switch.vim'
 
 filetype plugin indent on
 
@@ -224,7 +227,8 @@ let g:unite_enable_start_insert = 1
 "inoremap <silent> <C-f> <ESC>:<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 "nnoremap <silent> <C-b> :<C-u>Unite buffer file_mru<CR>
 "inoremap <silent> <C-b> <ESC>:<C-u>Unite buffer file_mru<CR>
-
+"最近開いたファイル履歴の保存数
+let g:unite_source_file_mru_limit = 100
 " project以下のファイル一覧
 nnoremap <silent> ,uo  :<C-u>Unite file_rec/async:!<CR>
 " バッファ一覧
@@ -266,7 +270,7 @@ autocmd FileType unite call s:unite_my_settings()
 
 " grep検索
 "nnoremap <silent> ,ug  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
-nnoremap <silent> ,ug  :<C-u>Unite grep: -buffer-name=search-buffer<CR>
+nnoremap <silent> ,ug  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 
 " カーソル位置の単語をgrep検索
 nnoremap <silent> ,uw :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
@@ -764,3 +768,25 @@ function! MyMode()
 endfunction
 
 
+colorscheme molokai
+
+" 分割した設定ファイルをすべて読み込む
+set runtimepath+=~/.vim/
+runtime! userautoload/*.vimrc
+
+"RSpec対応
+let g:quickrun_config._ = {'runner' : 'vimproc'}
+let g:quickrun_config['rspec/bundle'] = {
+  \ 'type': 'rspec/bundle',
+  \ 'command': 'rspec',
+  \ 'exec': 'bundle exec %c %s'
+  \}
+let g:quickrun_config['rspec/normal'] = {
+  \ 'type': 'rspec/normal',
+  \ 'command': 'rspec',
+  \ 'exec': '%c %s'
+  \}
+function! RSpecQuickrun()
+  let b:quickrun_config = {'type' : 'rspec/bundle'}
+endfunction
+autocmd BufReadPost *_spec.rb call RSpecQuickrun()
