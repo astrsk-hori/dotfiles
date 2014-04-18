@@ -50,6 +50,8 @@ set background=dark
 
 set nrformats=
 
+"set history=10000
+
 set t_Co=256
 " ==================================================================
 
@@ -145,6 +147,14 @@ let php_htmlInStrings=1
 " ショートタグ (<?を無効にする→ハイライト除外にする)
 let php_noShortTags = 1
 
+" 改行時にコメントが自動インデントされるのを防ぐ
+autocmd BufEnter * setlocal formatoptions-=r
+autocmd BufEnter * setlocal formatoptions-=o
+
+" visulaモードで選択してからのインデント調整で調整後に選択範囲を開放しない
+vnoremap > >gv
+vnoremap < <gv
+
 set nocompatible
 
 if has('vim_starting')
@@ -215,6 +225,7 @@ NeoBundle 'kana/vim-textobj-user'
 " ruby用のtext-obj
 NeoBundle 'rhysd/vim-textobj-ruby'
 NeoBundle 'AndrewRadev/switch.vim'
+NeoBundle 'chriskempson/vim-tomorrow-theme'
 
 filetype plugin indent on
 
@@ -230,25 +241,25 @@ let g:unite_enable_start_insert = 1
 "最近開いたファイル履歴の保存数
 let g:unite_source_file_mru_limit = 100
 " project以下のファイル一覧
-nnoremap <silent> ,uo  :<C-u>Unite file_rec/async:!<CR>
+nnoremap <silent> ,uo  :<C-u>Unite file_rec/async:! -no-split<CR>
 " バッファ一覧
-nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+nnoremap <silent> ,ub :<C-u>Unite buffer -no-split<CR>
 " ファイル一覧
-nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file -no-split<CR>
 " レジスタ一覧
-nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register -no-split<CR>
 " 最近使用したファイル一覧
-nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+nnoremap <silent> ,um :<C-u>Unite file_mru -no-split<CR>
 " 全部乗せ
-nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file -no-split<CR>
 
-nnoremap <silent> ,up :Unite ref phpmanual<CR>
+nnoremap <silent> ,up :Unite ref phpmanual -no-split<CR>
 
-nnoremap <silent> ,ul :Unite line<CR>
+nnoremap <silent> ,ul :Unite line -no-split<CR>
 
 let g:unite_source_history_yank_enable =1  "history/yankの有効化
-nnoremap <silent> <C-y> :<C-u>Unite history/yank<CR>
-inoremap <silent> <C-y> <ESC>:<C-u>Unite history/yank<CR>
+nnoremap <silent> <C-y> :<C-u>Unite history/yank -no-split<CR>
+inoremap <silent> <C-y> <ESC>:<C-u>Unite history/yank -no-split<CR>
 
 " ウィンドウを分割して開く
  au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
@@ -469,16 +480,16 @@ map <silent> sP :call YanktmpPaste_P()<cr>
 
 " fuzzyfinder
 "nnoremap <unique> <silent> <space>fb :FufBuffer<CR>
-nnoremap <unique> <silent> <space>f :FufFile! **/<CR>
+"nnoremap <unique> <silent> <space>f :FufFile! **/<CR>
 "nnoremap <unique> <silent> <space>fm :FufMruFile<CR>
 "nnoremap <unique> <silent> <Space>fc :FufRenewCache<CR>
-autocmd FileType fuf nmap <C-c> <ESC>
-let g:fuf_patternSeparator = ' '
-let g:fuf_modesDisable = ['mrucmd']
-let g:fuf_mrufile_exclude = '\v\.DS_Store|\.git|\.swp|\.svn'
-let g:fuf_mrufile_maxItem = 100
-let g:fuf_enumeratingLimit = 20
-let g:fuf_file_exclude = '\v\.DS_Store|\.git|\.swp|\.svn'
+"autocmd FileType fuf nmap <C-c> <ESC>
+"let g:fuf_patternSeparator = ' '
+"let g:fuf_modesDisable = ['mrucmd']
+"let g:fuf_mrufile_exclude = '\v\.DS_Store|\.git|\.swp|\.svn'
+"let g:fuf_mrufile_maxItem = 100
+"let g:fuf_enumeratingLimit = a20
+"let g:fuf_file_exclude = '\v\.DS_Store|\.git|\.swp|\.svn'
 
 " quickrun execute sql  ====================
 let g:quickrun_config['sql'] = {
@@ -652,9 +663,9 @@ let g:rails_modelines=0
 function! SetUpRailsSetting()
     nnoremap <Space>rr :R<CR>
     nnoremap <Space>ra :A<CR>
-    nnoremap <Space>rm :Rmodel<Space>
-    nnoremap <Space>rc :Rcontroller<Space>
-    nnoremap <Space>rv :Rview<Space>
+    nnoremap <Space>rm :RVmodel<Space>
+    nnoremap <Space>rc :RVcontroller<Space>
+    nnoremap <Space>rv :RVview<Space>
     nnoremap <Space>rp :Rpreview<CR>
 endfunction
 
@@ -767,7 +778,7 @@ function! MyMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
-
+syntax enable
 colorscheme molokai
 
 " 分割した設定ファイルをすべて読み込む
