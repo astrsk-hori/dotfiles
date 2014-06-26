@@ -116,8 +116,13 @@ imap OA <Up>
 imap OB <Down>
 imap OC <Right>
 imap OD <Left>
+
 " jkでエスケープ
 inoremap jk <ESC>
+
+" 挿入モード時に横移動
+inoremap <silent> <C-l> <Right>
+inoremap <silent> <C-h> <Left>
 
 " marks & registers
 nnoremap <Space>m  :<C-u>marks<CR>
