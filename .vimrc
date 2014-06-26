@@ -80,6 +80,9 @@ nmap bb :ls<CR>:buf
 nmap ,h :bp<CR>
 nmap ,l :bn<CR>
 
+" 前に開いたファイルを開くショートカット
+nmap <Space>, <C-^>
+
 " ステータスエリア関係
 "ステータスのところにファイル情報表示
 "set statusline=%<[%n]%F%=\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}\ %l,%c\ %P 
