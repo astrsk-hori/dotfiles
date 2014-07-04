@@ -43,7 +43,7 @@ ZSH_THEME="muse"
 PATH=$PATH:/Applications/Lynxlet.app/Contents/Resources/lynx/bin
 PATH=$PATH:/usr/local/mysql/bin:/Users/horie
 
-plugins=(git vi-mode history history-substring-search mysql ruby rails4 gem brew rake rbenv autojump)
+plugins=(git history history-substring-search mysql ruby rails gem brew rake rbenv autojump)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -58,14 +58,14 @@ setopt noflowcontrol
 bindkey '^Q' show_buffer_stack
 
 #alias
-alias ctags='/opt/local/bin/ctags'
+#alias ctags='/opt/local/bin/ctags'
 alias rtags='ctags --langmap=RUBY:.rb --exclude="*.js"  --exclude=".git*" -R . $(bundle list --paths)'
 
 #ruby
-export RBENV_ROOT=$HOME/.rbenv
-export PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"
-eval "$(rbenv init -)"
-alias re='rbenv exec'
+#export RBENV_ROOT=$HOME/.rbenv
+#export PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+#alias re='rbenv exec'
 
 #shhet
 export EDITOR=vim
@@ -83,3 +83,5 @@ function _sheets {
 
 # zsh-syntax-highlightingを使う
 source ~/dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local

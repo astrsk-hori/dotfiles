@@ -166,7 +166,7 @@ vnoremap < <gv
 set nocompatible
 
 if has('vim_starting')
-execute 'set runtimepath+='.$HOME.'/.vim/neobundle.vim.git'
+execute 'set runtimepath+='.$HOME.'/.vim/neobundle.vim'
 endif
 
 filetype off
@@ -201,6 +201,7 @@ NeoBundle 'claco/jasmine.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'joonty/vdebug'
 NeoBundle 'git://github.com/tpope/vim-fugitive.git'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'git://github.com/honza/snipmate-snippets.git'
 NeoBundle 'vim-scripts/yanktmp.vim'
@@ -234,6 +235,7 @@ NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'rhysd/vim-textobj-ruby'
 NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
+NeoBundle 'Shougo/neomru.vim'
 
 filetype plugin indent on
 
@@ -713,7 +715,7 @@ aug END
 " lightline
 "let g:lightline = {'colorscheme': 'solarized'}
 
-set guifont=Ricty\ Regular\ for\ Powerline:h14
+"set guifont=Ricty\ Regular\ for\ Powerline:h14
 let g:lightline = {
       \ 'colorscheme': 'solarized',
       \ 'component': {
