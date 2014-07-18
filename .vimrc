@@ -236,6 +236,8 @@ NeoBundle 'rhysd/vim-textobj-ruby'
 NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'Shougo/neomru.vim'
+" 変数名とか調べる用
+NeoBundle 'koron/codic-vim'
 
 filetype plugin indent on
 
