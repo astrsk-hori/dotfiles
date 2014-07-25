@@ -429,33 +429,41 @@ autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
 "------------------------------------
 " ファイルタイプを変更
 function! JasmineSetting()
-    au BufRead,BufNewFile *Helper.js,*Spec.js  set
-    filetype=jasmine.javascript
-    au BufRead,BufNewFile *Helper.coffee,*Spec.coffee  set
-    filetype=jasmine.coffee
-    au BufRead,BufNewFile,BufReadPre *Helper.coffee,*Spec.coffee  let b:quickrun_config = {'type' : 'coffee'}
-    call jasmine#load_snippets()
-    map <buffer> <leader>m :JasmineRedGreen<CR>
-    command! JasmineRedGreen :call jasmine#redgreen()
-    command! JasmineMake :call jasmine#make()
+  au BufRead,BufNewFile *Helper.js,*Spec.js  set
+  filetype=jasmine.javascript
+  au BufRead,BufNewFile *Helper.coffee,*Spec.coffee  set
+  filetype=jasmine.coffee
+  au BufRead,BufNewFile,BufReadPre *Helper.coffee,*Spec.coffee  let b:quickrun_config = {'type' : 'coffee'}
+  call jasmine#load_snippets()
+  map <buffer> <leader>m :JasmineRedGreen<CR>
+  command! JasmineRedGreen :call jasmine#redgreen()
+  command! JasmineMake :call jasmine#make()
 endfunction
 "au BufRead,BufNewFile,BufReadPre *.coffee,*.js call JasmineSetting()
 
 "------------------------------------
 " indent_guides
 "------------------------------------
+" Vim 起動時 vim-indent-guides を自動起動
+let g:indent_guides_enable_on_vim_startup=1
+
 " インデントの深さに色を付ける
 let g:indent_guides_start_level=2
 let g:indent_guides_auto_colors=0
-let g:indent_guides_enable_on_vim_startup=0
 let g:indent_guides_color_change_percent=20
 let g:indent_guides_guide_size=1
 let g:indent_guides_space_guides=1
 
-hi IndentGuidesOdd  ctermbg=235
-hi IndentGuidesEven ctermbg=237
+" 奇数番目のインデントの色
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#444433 ctermbg=black
+" 偶数番目のインデントの色
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#333344 ctermbg=darkgray
+
+"hi IndentGuidesOdd  ctermbg=235
+"hi IndentGuidesEven ctermbg=237
 au FileType coffee,ruby,javascript,python,php IndentGuidesEnable
 nmap <silent><Leader>ig <Plug>IndentGuidesToggle
+"------------------------------------
 
 let g:quickrun_config = {}
 let g:quickrun_config['coffee'] = {'command' : 'coffee', 'exec' : ['%c -cbp %s']}
