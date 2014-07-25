@@ -455,9 +455,9 @@ let g:indent_guides_guide_size=1
 let g:indent_guides_space_guides=1
 
 " 奇数番目のインデントの色
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#444433 ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#444433 ctermbg=235
 " 偶数番目のインデントの色
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#333344 ctermbg=darkgray
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#333344 ctermbg=237
 
 "hi IndentGuidesOdd  ctermbg=235
 "hi IndentGuidesEven ctermbg=237
