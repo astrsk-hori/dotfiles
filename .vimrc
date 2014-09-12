@@ -41,6 +41,9 @@ set nobackup
 " スワップファイルを作成しない
 set noswapfile
 
+" undoファイルを作成しない(macvim)
+set noundofile
+
 " マウス有効化
 " Enable mouse support.
 set mouse=a
@@ -238,6 +241,8 @@ NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'Shougo/neomru.vim'
 " 変数名とか調べる用
 NeoBundle 'koron/codic-vim'
+" 複数カーソル
+NeoBundle 'terryma/vim-multiple-cursors'
 
 filetype plugin indent on
 
@@ -413,7 +418,7 @@ autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
 " vim-coffee-script
 "------------------------------------
 " 保存時にコンパイル
-autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+"autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
 
 " taglistの設定 coffeeを追加
 " let g:tlist_coffee_settings = 'coffee;f:function;v:variable'

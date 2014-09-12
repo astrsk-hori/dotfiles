@@ -41,7 +41,6 @@ ZSH_THEME="muse"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 PATH=$PATH:/Applications/Lynxlet.app/Contents/Resources/lynx/bin
-PATH=$PATH:/usr/local/mysql/bin:/Users/horie
 
 plugins=(git history history-substring-search mysql ruby rails gem brew rake rbenv autojump)
 
@@ -85,3 +84,4 @@ function _sheets {
 source ~/dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+[ -f ~/.zshrc.peco ] && source ~/.zshrc.peco
