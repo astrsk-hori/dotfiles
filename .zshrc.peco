@@ -1,13 +1,25 @@
-peco-select-history() {
-  BUFFER=$(history 1 | sort -k1,1nr | perl -ne 'BEGIN { my @lines = (); } s/^\s*\d+\s*//; $in=$_; if (!(grep {$in eq $_} @lines)) { push(@lines, $in); print $in; }' | peco --query "$LBUFFER")
-  CURSOR=${#BUFFER}
-  zle clear-screen
-}
-zle -N peco-select-history
-bindkey '^r' peco-select-history
-
-peco-git-status-to-vim(){
+function peco-git-status-to-vim(){
   vim `git status -s|awk '{print $2}'|peco`
 }
 
 alias gvim='peco-git-status-to-vim'
+
+function peco-git-local-branch-name-search(){
+  GIT_BRANCH=$(git branch | peco)
+  BUFFER=${BUFFER}${GIT_BRANCH}
+  CURSOR=$#BUFFER
+}
+zle -N peco-git-local-branch-name-search
+bindkey '^k' peco-git-local-branch-name-search
+
+function agvim () {
+  vim $(ag $@ | peco --query "$LBUFFER" | awk -F : '{print "-c " $2 " " $1}')
+}
+
+function peco-git-status(){
+  GIT_BRANCH=$(git status -s|awk '{print $2}'|peco)
+  BUFFER=${BUFFER}${GIT_BRANCH}
+  CURSOR=$#BUFFER
+}
+zle -N peco-git-status
+bindkey '^e' peco-git-status
