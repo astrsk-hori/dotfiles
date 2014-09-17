@@ -40,3 +40,27 @@ function peco-select-history() {
 }
 zle -N peco-select-history
 bindkey '^r' peco-select-history
+
+function peco-snippets() {
+  local SNIPPETS=$(cat ~/.sheets/* | peco --query "$LBUFFER" | pbcopy)
+  zle clear-screen
+}
+zle -N peco-snippets
+bindkey '^x' peco-snippets
+
+function peco-snippets-run() {
+  BUFFER=$(cat ~/.sheets/* | peco --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N peco-snippets-run
+bindkey '^n' peco-snippets-run
+
+function peco-alias(){
+  TARGET_ALIAS=$(alias | peco --query "$LBUFFER")
+  BUFFER=$(echo "$TARGET_ALIAS"|awk -F '=' '{print $1}')
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N peco-alias
+bindkey '^f' peco-alias
