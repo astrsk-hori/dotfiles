@@ -5,7 +5,7 @@ function peco-git-status-to-vim(){
 alias gvim='peco-git-status-to-vim'
 
 function peco-git-local-branch-name-search(){
-  GIT_BRANCH=$(git branch | peco)
+  GIT_BRANCH=$(git branch | peco --query "$LBUFFER")
   BUFFER=${BUFFER}${GIT_BRANCH}
   CURSOR=$#BUFFER
 }
@@ -64,3 +64,9 @@ function peco-alias(){
 }
 zle -N peco-alias
 bindkey '^@^a' peco-alias
+
+function peco-bindkey-list(){
+  bindkey|peco
+}
+zle -N peco-bindkey-list
+bindkey '^@^l' peco-bindkey-list
