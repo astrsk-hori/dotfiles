@@ -10,7 +10,7 @@ function peco-git-local-branch-name-search(){
   CURSOR=$#BUFFER
 }
 zle -N peco-git-local-branch-name-search
-bindkey '^k' peco-git-local-branch-name-search
+bindkey '^@^b' peco-git-local-branch-name-search
 
 function agvim () {
   vim $(ag $@ | peco --query "$LBUFFER" | awk -F : '{print "-c " $2 " " $1}')
@@ -22,7 +22,7 @@ function peco-git-status(){
   CURSOR=$#BUFFER
 }
 zle -N peco-git-status
-bindkey '^e' peco-git-status
+bindkey '^@^e' peco-git-status
 
 
 function peco-select-history() {
@@ -39,14 +39,14 @@ function peco-select-history() {
   zle clear-screen
 }
 zle -N peco-select-history
-bindkey '^r' peco-select-history
+bindkey '^@^h' peco-select-history
 
 function peco-snippets() {
   local SNIPPETS=$(cat ~/.sheets/* | peco --query "$LBUFFER" | pbcopy)
   zle clear-screen
 }
 zle -N peco-snippets
-bindkey '^x' peco-snippets
+bindkey '^@^c' peco-snippets
 
 function peco-snippets-run() {
   BUFFER=$(cat ~/.sheets/* | peco --query "$LBUFFER")
@@ -54,7 +54,7 @@ function peco-snippets-run() {
   zle clear-screen
 }
 zle -N peco-snippets-run
-bindkey '^n' peco-snippets-run
+bindkey '^@^r' peco-snippets-run
 
 function peco-alias(){
   TARGET_ALIAS=$(alias | peco --query "$LBUFFER")
@@ -63,4 +63,4 @@ function peco-alias(){
   zle clear-screen
 }
 zle -N peco-alias
-bindkey '^f' peco-alias
+bindkey '^@^a' peco-alias
