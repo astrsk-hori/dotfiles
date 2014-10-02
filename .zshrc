@@ -85,3 +85,6 @@ source ~/dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.zshrc.peco ] && source ~/.zshrc.peco
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

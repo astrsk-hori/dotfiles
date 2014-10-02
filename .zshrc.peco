@@ -70,3 +70,12 @@ function peco-bindkey-list(){
 }
 zle -N peco-bindkey-list
 bindkey '^@^l' peco-bindkey-list
+
+# mac only
+function peco-mdfind-name(){
+  BUFFER=$(mdfind -name ${1}|peco)
+  echo ${BUFFER}
+  echo ${BUFFER}|tr -d '\n'|pbcopy
+}
+zle -N peco-mdfind-name
+alias fserch='peco-mdfind-name'
