@@ -5,7 +5,7 @@ function peco-git-status-to-vim(){
 alias gvim='peco-git-status-to-vim'
 
 function peco-git-local-branch-name-search(){
-  GIT_BRANCH=$(git branch | peco --query "$LBUFFER")
+  GIT_BRANCH=$(git branch | peco)
   BUFFER=${BUFFER}${GIT_BRANCH}
   CURSOR=$#BUFFER
 }
@@ -56,6 +56,14 @@ function peco-snippets-run() {
 zle -N peco-snippets-run
 bindkey '^@^r' peco-snippets-run
 
+function peco-cheatsheet-run() {
+  BUFFER=$(cat ~/.cheat/* | peco --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N peco-cheatsheet-run
+bindkey '^@^w' peco-cheatsheet-run
+
 function peco-alias(){
   TARGET_ALIAS=$(alias | peco --query "$LBUFFER")
   BUFFER=$(echo "$TARGET_ALIAS"|awk -F '=' '{print $1}')
@@ -69,7 +77,24 @@ function peco-bindkey-list(){
   bindkey|peco
 }
 zle -N peco-bindkey-list
-bindkey '^@^l' peco-bindkey-list
+bindkey '^@^s' peco-bindkey-list
+
+# laravel
+function l4() {
+  LCOMMAND=$(la4 --no-ansi|awk '{print $1}'|peco)
+  BUFFER=${BUFFER}${LCOMMAND}
+  CURSOR=$#BUFFER
+}
+zle -N l4
+bindkey '^@^l' l4
+
+function laravel-test-file() {
+  TESTFILE=$(ag --ignore=logs -l Test ./app/tests|peco)
+  BUFFER=${BUFFER}${TESTFILE}
+  CURSOR=$#BUFFER
+}
+zle -N laravel-test-file
+bindkey '^@^g' laravel-test-file
 
 # mac only
 function peco-mdfind-name(){

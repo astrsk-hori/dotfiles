@@ -41,8 +41,10 @@ ZSH_THEME="muse"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 PATH=$PATH:/Applications/Lynxlet.app/Contents/Resources/lynx/bin
+#PATH="$(brew --prefix homebrew/php/php55)/bin:$PATH"
+fpath=(/usr/local/share/zsh-completions $fpath)
 
-plugins=(git history history-substring-search mysql ruby rails gem brew rake rbenv autojump)
+plugins=(git history history-substring-search mysql ruby rails gem brew rake rbenv autojump laravel4)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -88,3 +90,16 @@ source ~/dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+function google() {
+    if [ -n "$1" ]; then
+        open "https://www.google.co.jp/search?q=${1}&ie=utf-8&oe=utf-8&hl=ja"
+    else
+        open "https://www.google.co.jp"
+    fi
+}
+
+# edit command line
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^v' edit-command-line

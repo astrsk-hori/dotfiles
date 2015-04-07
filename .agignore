@@ -8,6 +8,7 @@ old
 .vim/dict
 .git
 .svn
+logs
 zsh-completions
 jquery*.js
 bootstrap*.css

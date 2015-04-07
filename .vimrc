@@ -1,13 +1,13 @@
-set nocompatible
+scriptencoding utf-8
 
-syntax on
+"set nocompatible
 filetype plugin on
 
 set hlsearch
 set number
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 "====================================
 set expandtab
 set list
@@ -56,6 +56,7 @@ set nrformats=
 "set history=10000
 
 set t_Co=256
+
 " ==================================================================
 
 "全角スペースを視覚化
@@ -169,7 +170,7 @@ vnoremap < <gv
 set nocompatible
 
 if has('vim_starting')
-execute 'set runtimepath+='.$HOME.'/.vim/neobundle.vim'
+    execute 'set runtimepath+='.$HOME.'/.vim/neobundle.vim'
 endif
 
 filetype off
@@ -243,7 +244,17 @@ NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'koron/codic-vim'
 " 複数カーソル
 NeoBundle 'terryma/vim-multiple-cursors'
+" ペースト時にインデントが崩れないようにモード変更
+"NeoBundle 'ConradIrwin/vim-bracketed-paste'
+" Dash
+NeoBundle 'rizzatti/dash.vim'
+" php 名前空間補助
+NeoBundle 'arnaud-lb/vim-php-namespace'
+" laravel
+"NeoBundle 'm2mdas/phpcomplete-extended'
+"NeoBundle 'm2mdas/phpcomplete-extended-laravel'
 
+syntax on
 filetype plugin indent on
 
 "" Unite.vim
@@ -410,9 +421,9 @@ nmap <Leader>rj :<C-u>Ref webdict je<Space>
 nmap <Leader>re :<C-u>Ref webdict ej<Space>
 
 "coffeeファイルタイプを認識させる
-au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
+au BufRead,BufNewFile,BufReadPre *.coffee set filetype=coffee
 " インデントを設定
-autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
+autocmd FileType coffee setlocal sw=2 sts=2 ts=2 et
 
 "------------------------------------
 " vim-coffee-script
@@ -474,7 +485,8 @@ let g:quickrun_config = {}
 let g:quickrun_config['coffee'] = {'command' : 'coffee', 'exec' : ['%c -cbp %s']}
 
 set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m,%f
-set grepprg=grep\ -nh
+"set grepprg=grep\ -nh
+set grepprg=ag
 
 "------------------------------------
 " neosnippet
@@ -610,10 +622,12 @@ nnoremap <silent> <Leader>s vaw:s/[A-Z]/_\l\0/egI<BAR>noh<CR>
 
 " syntastic
 let g:syntastic_mode_map = { 'mode': 'active',
-  \ 'active_filetypes': [],
+  \ 'active_filetypes': ['php'],
   \ 'passive_filetypes': [] }
 "  \ 'passive_filetypes': ['html', 'js'] }
 let g:syntastic_auto_loc_list = 1
+let g:syntastic_php_checkers = ['phpcs']
+let g:syntastic_php_phpcs_args='--standard=ruleset.xml'
 
 "for fakeclip
 map ,y <Plug>(fakeclip-y)
@@ -826,3 +840,16 @@ function! RSpecQuickrun()
   let b:quickrun_config = {'type' : 'rspec/bundle'}
 endfunction
 autocmd BufReadPost *_spec.rb call RSpecQuickrun()
+
+"Dash.vim
+nmap <silent> <Space>d <Plug>DashSearch
+
+"vim-php-namespace
+imap <Space>u <C-O>:call PhpInsertUse()<CR>
+nmap <Space>u :call PhpInsertUse()<CR>
+imap <Space>e <C-O>:call PhpExpandClass()<CR>
+nmap <Space>e :call PhpExpandClass()<CR>
+
+" phpcomplete-extended setting
+" Composer command name
+let g:phpcomplete_index_composer_command = 'composer'
