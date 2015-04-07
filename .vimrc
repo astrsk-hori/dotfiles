@@ -175,7 +175,7 @@ endif
 
 filetype off
 
-call neobundle#rc($HOME."/.vim/.bundle")
+call neobundle#rc($HOME."/.vim/bundle")
 
 NeoBundle 'git://github.com/tpope/vim-surround.git'
 NeoBundle 'git://github.com/Shougo/neocomplcache.git'
