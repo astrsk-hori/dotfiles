@@ -3,6 +3,7 @@ scriptencoding utf-8
 "set nocompatible
 filetype plugin on
 
+set cursorline
 set hlsearch
 set number
 set tabstop=4
@@ -238,6 +239,7 @@ NeoBundle 'mattn/emmet-vim'
 "javascript 構文解析
 "NeoBundle 'marijnh/tern_for_vim'
 NeoBundle 'altercation/vim-colors-solarized'
+"clipbordコピー
 NeoBundle 'git://github.com/kana/vim-fakeclip.git'
 NeoBundle 'open-browser.vim'
 NeoBundle 'kana/vim-smartinput'
@@ -649,6 +651,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_php_checkers = ['phpcs']
 let g:syntastic_php_phpcs_args='--standard=ruleset.xml'
+nnoremap <Space>n :SyntasticReset<CR>
 
 "for fakeclip
 map ,y <Plug>(fakeclip-y)
