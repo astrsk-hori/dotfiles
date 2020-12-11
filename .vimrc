@@ -146,7 +146,7 @@ nnoremap <C-]> g<C-]>
 
 "key map
 " ファンクションリスト
-nnoremap <silent> ,f :call Gfunclist()<CR>
+nnoremap <silent> sf :call Gfunclist()<CR>
 
 function! Gfunclist()
     vimgrep " function" % | cw
@@ -197,7 +197,7 @@ NeoBundle 'Shougo/vimproc.git'
 NeoBundle 'Shougo/vimshell.git'
 "NeoBundle 'mattn/zencoding-vim.git'
 NeoBundle 'tsaleh/vim-align.git'
-"NeoBundle 'soh335/vim-symfony.git'
+NeoBundle 'soh335/vim-symfony.git'
 "NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'thinca/vim-qfreplace.git'
 NeoBundle 'thinca/vim-quickrun.git'
@@ -219,6 +219,7 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'joonty/vdebug'
 NeoBundle 'tpope/vim-fugitive.git'
 NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'vim-scripts/yanktmp.vim'
 NeoBundle 'mattn/excitetranslate-vim'
 NeoBundle 'ujihisa/unite-colorscheme'
@@ -266,6 +267,18 @@ NeoBundle 'arnaud-lb/vim-php-namespace'
 "NeoBundle 'm2mdas/phpcomplete-extended'
 "NeoBundle 'm2mdas/phpcomplete-extended-laravel'
 
+" Document Search
+NeoBundle 'rhysd/devdocs.vim'
+
+" ファイル検索
+NeoBundle 'ctrlpvim/ctrlp.vim'
+
+" php ide
+NeoBundle 'phpactor/phpactor'
+
+" 検索の拡張
+NeoBundle 'haya14busa/vim-asterisk'
+
 call neobundle#end()
 
  " Required:
@@ -282,13 +295,17 @@ filetype plugin indent on
 " 起動時にインサートモードで開始
 let g:unite_enable_start_insert = 1
 
+" 大文字小文字を区別しない
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
+
 " インサート／ノーマルどちらからでも呼び出せるようにキーマップ
 "nnoremap <silent> <C-f> :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 "inoremap <silent> <C-f> <ESC>:<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 "nnoremap <silent> <C-b> :<C-u>Unite buffer file_mru<CR>
 "inoremap <silent> <C-b> <ESC>:<C-u>Unite buffer file_mru<CR>
 "最近開いたファイル履歴の保存数
-let g:unite_source_file_mru_limit = 100
+let g:unite_source_file_mru_limit = 1000
 " project以下のファイル一覧
 nnoremap <silent> ,uo  :<C-u>Unite file_rec/async:! -no-split<CR>
 " バッファ一覧
@@ -301,10 +318,16 @@ nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register -no-split<CR>
 nnoremap <silent> ,um :<C-u>Unite file_mru -no-split<CR>
 " 全部乗せ
 nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file -no-split<CR>
+" php manual
+nnoremap <silent> ,up :Unite ref/phpmanual -no-split<CR>
 
-nnoremap <silent> ,up :Unite ref phpmanual -no-split<CR>
+" bookmark
+nnoremap <silent> ,bl :Unite bookmark<CR>
+nnoremap <silent> ,ba :UniteBookmarkAdd<CR>
 
+" outline
 nnoremap <silent> ,ul :Unite line -no-split<CR>
+nnoremap <silent> ,o :Unite outline -no-split<CR>
 
 let g:unite_source_history_yank_enable =1  "history/yankの有効化
 nnoremap <silent> <C-y> :<C-u>Unite history/yank -no-split<CR>
@@ -333,10 +356,15 @@ autocmd FileType unite call s:unite_my_settings()
 nnoremap <silent> ,ug  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 
 " カーソル位置の単語をgrep検索
-nnoremap <silent> ,uw :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+nnoremap <silent> ,uw :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W><CR>
 
 " grep検索結果の再呼出
 nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
+
+nnoremap <silent> ,d  :<C-u>Unite
+      \ -start-insert -default-action=vimfiler
+      \ directory_rec/async
+      \ <CR>
 
 " unite grep に ag(The Silver Searcher) を使う
 if executable('ag')
@@ -345,8 +373,18 @@ if executable('ag')
   let g:unite_source_grep_recursive_opt = ''
 endif
 
+" unite cache & ignore files
+let s:unite_ignore_file_rec_patterns=
+      \ ''
+      \ .'vendor/bundle\|.bundle/\|\.sass-cache/\|'
+      \ .'node_modules/\|bower_components/\|'
+      \ .'\.\(bmp\|gif\|jpe\?g\|png\|webp\|ai\|psd\)"\?$'
 
- 
+call unite#custom#source(
+      \ 'file_rec/async,file_rec/git',
+      \ 'ignore_pattern',
+      \ s:unite_ignore_file_rec_patterns)
+
 "バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin
 "ファイルを開くと発動します）
 augroup BinaryXXD
@@ -368,7 +406,7 @@ let g:neocomplcache_enable_at_startup = 1
 
 " vimref
 nmap ,rp :<C-u>Ref phpmanual<Space>
-let g:ref_phpmanual_path = $HOME."/.vim/dict/php-chunked-xhtml"
+let g:ref_phpmanual_path = $HOME."/.vim/ref/php-chunked-xhtml"
 
 " taglist
 set tags=tags
@@ -509,24 +547,24 @@ set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m,%f
 "set grepprg=grep\ -nh
 set grepprg=ag
 
-"------------------------------------
-" neosnippet
-"------------------------------------
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/.bundle/snipmate-snippets/snippets'
-
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
+""------------------------------------
+"" neosnippet
+""------------------------------------
+"" Tell Neosnippet about the other snippets
+"let g:neosnippet#snippets_directory='~/.vim/.bundle/snipmate-snippets/snippets'
+"
+"" Plugin key-mappings.
+"imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+"
+"" SuperTab like snippets behavior.
+"imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+"smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"
+"" For snippet_complete marker.
+"if has('conceal')
+"  set conceallevel=2 concealcursor=i
+"endif
 
 " Unite Snippets
 "imap <C-h>  <Plug>(neocomplcache_start_unite_snippet)
@@ -619,22 +657,22 @@ inoremap <C-D> <ESC>:call PhpDocSingle()<CR>i
 nnoremap <C-D> :call PhpDocSingle()<CR>
 vnoremap <C-D> :call PhpDocRange()<CR>
 
-" gtags
-" 検索結果Windowを閉じる
-nnoremap <C-q> <C-w><C-w><C-w>q
-" Grep 準備
-nnoremap <C-g> :Gtags -g
-" このファイルの関数一覧
-nnoremap <C-l> :Gtags -f %<CR><CR>
-" カーソル以下の定義元を探す
-"nnoremap <C-j> :Gtags <C-r><C-w><CR><CR>
-map <C-j> :GtagsCursor<CR><CR>
-" カーソル以下の使用箇所を探す
-nnoremap <C-k> :Gtags -r <C-r><C-w><CR><CR>
-" 次の検索結果
-nnoremap <C-n> :cn<CR>
-" 前の検索結果
-nnoremap <C-p> :cp<CR>
+"" gtags
+"" 検索結果Windowを閉じる
+"nnoremap <C-q> <C-w><C-w><C-w>q
+"" Grep 準備
+""nnoremap <C-g> :Gtags -g
+"" このファイルの関数一覧
+"nnoremap <C-l> :Gtags -f %<CR><CR>
+"" カーソル以下の定義元を探す
+""nnoremap <C-j> :Gtags <C-r><C-w><CR><CR>
+""map <C-j> :GtagsCursor<CR><CR>
+"" カーソル以下の使用箇所を探す
+"nnoremap <C-k> :Gtags -r <C-r><C-w><CR><CR>
+"" 次の検索結果
+"nnoremap <C-n> :cn<CR>
+"" 前の検索結果
+"nnoremap <C-p> :cp<CR>
 
 "let Gtags_No_Auto_Jump = 1
 "
@@ -642,14 +680,25 @@ nnoremap <silent> <Leader>S vaw:s/_\([a-z]\)/\u\1/egI<BAR>noh<CR>
 nnoremap <silent> <Leader>s vaw:s/[A-Z]/_\l\0/egI<BAR>noh<CR>
 
 " syntastic
+let g:syntastic_check_on_wq=0
+let g:syntastic_check_on_open = 0
+let g:syntastic_enable_signs = 1
+let g:syntastic_echo_current_error = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_php_php_args = '-l'
+let g:syntastic_error_symbol='✗'
+let g:syntastic_style_error_symbol = '✗'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 let g:syntastic_mode_map = { 'mode': 'active',
   \ 'active_filetypes': ['php'],
   \ 'passive_filetypes': [] }
-"  \ 'passive_filetypes': ['html', 'js'] }
-let g:syntastic_auto_loc_list = 1
 let g:syntastic_php_checkers = ['phpcs']
-let g:syntastic_php_phpcs_args='--standard=ruleset.xml'
+let g:syntastic_php_phpcs_args='--standard=psr2'
 nnoremap <Space>n :SyntasticReset<CR>
+nnoremap <Space>x :SyntasticToggleMode<CR>
 
 "for fakeclip
 map ,y <Plug>(fakeclip-y)
@@ -702,6 +751,23 @@ let g:unite_source_menu_menus.shortcut.command_candidates = [
 \   [ "AllMap", "Unite output:AllMap" ],
 \   [ "Unite Beautiful Attack", "Unite -auto-preview colorscheme" ],
 \   [ "Qiita", "OpenBrowser http://qiita.com" ],
+\   [ "to XML", ":%s/></></g | filetype indent on | setf xml | normal gg=G" ],
+\]
+" unite-shortcut {{{
+let g:unite_source_menu_menus.phpactor = {
+\   "description" : "phpactor"
+\}
+
+" ここに書かれた順番のまま出力される
+let g:unite_source_menu_menus.phpactor.command_candidates = [
+\   [ "use補完", "call phpactor#UseAdd()" ],
+\   [ "context menu", "call phpactor#ContextMenu()" ],
+\   [ "navigate menu", "call phpactor#Navigate()" ],
+\   [ "go to definition", "call phpactor#GotoDefinition()" ],
+\   [ "transform コンストラクタ補完等", "call phpactor#ExtractExpression()" ],
+\   [ "選択した範囲を変数に抽出", "call phpactor#GotoDefinition()" ],
+\   [ "method 選択した範囲を新たなメソッド", "call phpactor#ExtractMethod()" ],
+\   [ "hover", "call phpactor#Hover()" ],
 \]
 nnoremap ,m :Unite menu<CR>
 
@@ -842,6 +908,13 @@ endfunction
 syntax enable
 colorscheme molokai
 
+if &term == "xterm-256color"
+    colorscheme molokai
+    set background=dark
+    hi Comment ctermfg=102
+    hi Visual  ctermbg=236
+endif
+
 " 分割した設定ファイルをすべて読み込む
 set runtimepath+=~/.vim/
 runtime! userautoload/*.vimrc
@@ -875,3 +948,42 @@ nmap <Space>e :call PhpExpandClass()<CR>
 " phpcomplete-extended setting
 " Composer command name
 let g:phpcomplete_index_composer_command = 'composer'
+
+"devdocs
+nmap K <Plug>(devdocs-under-cursor)
+
+" ctrl-p
+"" # 検索結果の表示ウィンドウの設定，100件分を表示（それ以上になってもスクロールされる）
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:100,results:50'
+" agと組み合わせる
+let g:ctrlp_user_command = 'ag %s -l'
+
+" phpactor
+" コンテキストメニューの起動(カーソル下のクラスやメンバに対して実行可能な選択肢を表示してくれます)
+nmap <Space>c :<C-u>call phpactor#ContextMenu()<CR>
+" ナビゲーションメニューの起動(クラスの参照元を列挙したり、他ファイルへのジャンプなど)
+nmap <Space>n :<C-u>call phpactor#Navigate()<CR>
+" 編集中のクラスに対し各種の変更を加える(コンストラクタ補完、インタフェース実装など)
+nmap <Space>t :<C-u>call phpactor#Transform()<CR>
+" オムニ補完でPhpactorを利用
+autocmd FileType php setlocal omnifunc=phpactor#Complete
+
+" 行を移動
+nnoremap <C-Up> "zdd<Up>"zP
+nnoremap <C-Down> "zdd"zp
+" 複数行を移動
+vnoremap <C-Up> "zx<Up>"zP`[V`]
+vnoremap <C-Down> "zx"zp`[V`]
+
+" カーソル下をハイライト
+nnoremap <silent> <Space><Space> "zyiw:let @/ = '\<' . @z . '\>'<CR>:set hlsearch<CR>
+
+" vim-asterrisk
+map *  <Plug>(asterisk-z*)
+map #  <Plug>(asterisk-z#)
+map g* <Plug>(asterisk-gz*)
+map g# <Plug>(asterisk-gz#)
+
+" GitGutter
+nmap ga <Plug>GitGutterNextHunk
+nmap gp <Plug>GitGutterPrevHunk
