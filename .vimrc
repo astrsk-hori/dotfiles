@@ -623,7 +623,7 @@ vnoremap <C-D> :call PhpDocRange()<CR>
 " 検索結果Windowを閉じる
 nnoremap <C-q> <C-w><C-w><C-w>q
 " Grep 準備
-nnoremap <C-g> :Gtags -g
+"nnoremap <C-g> :Gtags -g
 " このファイルの関数一覧
 nnoremap <C-l> :Gtags -f %<CR><CR>
 " カーソル以下の定義元を探す
